@@ -68,10 +68,10 @@ st.markdown("""
             font-weight: 600;
         }
         .title-main {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
             #background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4);
-            background: linear-gradient(90deg, #AFAFAF, #D5D5D5, #F2F2F2);
+            background: linear-gradient(90deg, #B2B2B2, #D9D9D9, #FFFFFF);
             -webkit-background-clip: text;
             color: transparent;
             text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
