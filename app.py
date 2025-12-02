@@ -72,8 +72,8 @@ st.markdown("""
             font-weight: 700;
             #background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4); 
             #background: linear-gradient(90deg, #AFAFAF, #D5D5D5, #F2F2F2);
-            background: linear-gradient(90deg, #7ED957, #A3E77C, #C9F4A1);
-            #background: linear-gradient(90deg, #6EE888, #9EFFA4, #C9FFC8);
+            #background: linear-gradient(90deg, #7ED957, #A3E77C, #C9F4A1);
+            background: linear-gradient(90deg, #6EE888, #9EFFA4, #C9FFC8);
 
 
             -webkit-background-clip: text;
@@ -191,7 +191,17 @@ if "recs" in st.session_state:
     )
 
     # 피드백 입력
-    st.subheader("📝 추천 피드백을 남겨주세요!")
+    st.markdown(
+    """
+    <p style="font-size:20px; font-weight:600; text-align:center;">
+        <span style="color:#FF4B4B;">✍︎</span>
+        <span style="color:#000000;">추천 피드백을 남겨주세요!</span>
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+    #st.subheader("📝 추천 피드백을 남겨주세요!")
 
     rating = st.slider("추천 만족도 (1~5)", 1, 5, 3)
     mood_after = st.radio(
