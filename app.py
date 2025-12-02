@@ -118,7 +118,7 @@ st.markdown(
 st.markdown(
     """
 <div class="cute-box">
-    지금 내 분위기에 딱 맞는 음악을 찾아보자! 🌈    
+    지금 내 분위기에 딱 맞는 음악을 추천받아보세요⋆⁺₊⋆     
 </div>
 """,
     unsafe_allow_html=True
