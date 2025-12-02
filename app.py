@@ -18,8 +18,8 @@ def connect_to_gsheet():
 
     client = gspread.authorize(creds)
 
-    # 시트 ID로 연결 (가장 안정적인 방식)
-    sheet = client.open_by_key("10uxFwwOHTrZ5Hw1aUw_5M4JlKY-YZz8sRQ_X3NGTGeA").sheet1
+    # 시트 ID로 연결 (가장 안정적)
+    sheet = client.open_by_key("10uxFwwOHTrZ5Hw1aUw_5M4JlKY-YZz8sRQ_X3NGTGeA").sheet1  
     return sheet
 
 
@@ -38,18 +38,75 @@ def save_log_to_sheet(emo1, emo2, pop_level, recs):
             r["similarity"]
         ])
 
+
 # ──────────────────────────────
 # Streamlit UI
 # ──────────────────────────────
 
 st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
 
-st.title("🎵 감정 기반 음악 추천 시스템")
-
 st.markdown("""
-감정 목록: **happy, sad, relaxed, angry, focus, confident**  
-pop_level: **0(60-70), 1(71-80), 2(81-99)**
-""")
+    <style>
+        .cute-box {
+            padding: 15px 18px;
+            border-radius: 15px;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+        .colored-box {
+            background-color: #D9F1FF;
+        }
+        .title-text {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# 상단 소개 박스
+st.markdown(
+    """
+<div class="cute-box">
+    <div class="title-text">🎵 감정 기반 음악 추천 시스템</div>
+    지금 감정에 따라 지금 딱 맞는 음악을 추천받아보세요! 💜<br>
+    선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 🎧  
+</div>
+
+<br>
+""",
+    unsafe_allow_html=True
+)
+
+# 감정 안내 박스
+st.markdown(
+    """
+<div class="cute-box colored-box">
+    <div class="title-text">✅ 선택 가능한 감정</div>
+    happy · sad · relaxed · angry · focus · confident
+</div>
+
+<br>
+
+<div class="cute-box colored-box">
+    <div class="title-text">🔥 인기도 (pop_level)</div>
+    0 : 60–70<br>
+    1 : 71–80<br>
+    2 : 81–99
+</div>
+
+<br>
+""",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+<div class="cute-box">
+    지금 내 분위기에 딱 맞는 음악을 찾아보자!    
+</div>
+""",
+    unsafe_allow_html=True
+)
 
 # 선택 입력
 emo1 = st.selectbox("첫 번째 감정 선택", [""] + emotions)
@@ -57,6 +114,7 @@ emo2 = st.selectbox("두 번째 감정 선택(없어도 됨)", [""] + emotions)
 
 pop_level = st.selectbox("인기도 레벨(pop_level)", [0, 1, 2])
 
+# 추천 버튼
 if st.button("추천 받기"):
     if emo1 == "":
         st.warning("⚠ 첫 번째 감정을 반드시 선택해주세요.")
@@ -65,6 +123,7 @@ if st.button("추천 받기"):
         if emo2 != "":
             user_emotions.append(emo2)
 
+        # 추천 실행
         recs = recommend_knn(user_emotions, pop_level)
 
         # 🔥 구글 시트 저장
@@ -74,4 +133,3 @@ if st.button("추천 받기"):
         st.subheader("🎶 추천 결과")
         for r in recs:
             st.write(f"- **{r['title']}** — *{r['artist']}*  (❗유사도 {r['similarity']})")
-
