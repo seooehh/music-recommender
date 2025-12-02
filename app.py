@@ -80,6 +80,22 @@ st.markdown("""
             text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
             text-align: center;
         }
+
+        /* ────────────────────────
+           📱 모바일 반응형 설정 추가
+           ──────────────────────── */
+        @media screen and (max-width: 600px) {
+            .title-main {
+                font-size: 24px !important;
+                line-height: 1.3;
+            }
+            .title-text {
+                font-size: 16px !important;
+            }
+            .cute-box {
+                padding: 12px 14px !important;
+            }
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -164,7 +180,7 @@ if "recs" in st.session_state:
     for r in st.session_state.recs:
         st.write(f"- **{r['title']}** — *{r['artist']}* ")
 
-    # 구분선 (박스 크기 자동 맞춤)
+    # 구분선
     st.markdown(
         """
         <div style="
@@ -183,7 +199,7 @@ if "recs" in st.session_state:
         unsafe_allow_html=True
     )
 
-    # 자동 추천 로그 저장
+    # 자동 로그 저장
     save_to_sheet(
         st.session_state.recs,
         st.session_state.emo1,
@@ -210,10 +226,10 @@ if "recs" in st.session_state:
         ["더 좋아졌어요 🙂", "그대로예요 😐", "별로였어요 🙁"]
     )
 
+    # 간격 추가
     st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
 
-
-    # 💬 한 줄 코멘트 추가 (선택)
+    # 💬 코멘트 입력
     comment = st.text_area(
         "문의사항이나 의견을 남겨주세요 (선택사항)",
         placeholder="ex. 오늘 감정이랑 너무 잘 맞았어요!"
