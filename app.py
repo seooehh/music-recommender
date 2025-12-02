@@ -137,6 +137,26 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+    <style>
+        /* 전체 페이지 기본 padding 제거 */
+        .block-container {
+            padding-top: 0rem !important;
+            padding-bottom: 1rem !important; /* 아래는 적당히 */
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+
+        /* Streamlit 앱 전체 body padding 제거 */
+        .main {
+            padding-top: 0rem !important;
+        }
+
+        /* 모바일 대응 수정 필요하면 여기에 추가 가능 */
+    </style>
+""", unsafe_allow_html=True)
+
+
 
 # 소개 박스
 st.markdown(
