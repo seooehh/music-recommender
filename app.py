@@ -72,7 +72,7 @@ st.markdown("""
             font-weight: 700;
             background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4);
             -webkit-background-clip: text;
-            color: transparent;
+            #color: transparent;
             text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
             text-align: center;
         }
@@ -83,7 +83,7 @@ st.markdown("""
 st.markdown(
     """
 <div class="cute-box">
-    <div class="title-main"> ✧♪˚₊· 감정 기반 음악 추천 시스템·₊˚♪✧</div>
+    <div class="title-main"> ✧ ♪˚₊· 감정 기반 음악 추천 시스템 ·₊˚♪ ✧</div><br>
     지금 감정에 따라 지금 딱 맞는 음악을 추천받아보세요! <br>
     선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 
 </div>
