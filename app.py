@@ -138,22 +138,23 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <style>
-        /* 전체 페이지 기본 padding 제거 */
-        .block-container {
-            padding-top: 0rem !important;
-            padding-bottom: 1rem !important; /* 아래는 적당히 */
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-        }
+<style>
 
-        /* Streamlit 앱 전체 body padding 제거 */
-        .main {
-            padding-top: 0rem !important;
-        }
+    /* ===== Streamlit 상단 헤더 영역 완전 제거 ===== */
+    header[data-testid="stHeader"] {
+        height: 0px !important;
+        min-height: 0px !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        visibility: hidden;
+    }
 
-        /* 모바일 대응 수정 필요하면 여기에 추가 가능 */
-    </style>
+    /* ===== 메인 block padding 강제 축소 ===== */
+    .block-container {
+        padding-top: 0.2rem !important;
+    }
+
+</style>
 """, unsafe_allow_html=True)
 
 
