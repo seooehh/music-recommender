@@ -65,7 +65,7 @@ st.markdown("""
             background-color: #D9F1FF;
         }
         .title-text {
-            font-size: 32px;
+            font-size: 20px;
             font-weight: 600;
         }
     </style>
