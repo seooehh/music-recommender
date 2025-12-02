@@ -82,9 +82,9 @@ st.markdown("""
 st.markdown(
     """
 <div class="cute-box">
-    <div class="title-main">🎵 감정 기반 음악 추천 시스템</div>
+    <div class="title-main"> ✧🎶˚₊· 감정 기반 음악 추천 시스템</div>
     지금 감정에 따라 지금 딱 맞는 음악을 추천받아보세요! <br>
-    선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 🎧  
+    선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 
 </div>
 
 <br>
@@ -118,7 +118,7 @@ st.markdown(
 st.markdown(
     """
 <div class="cute-box">
-    지금 내 분위기에 딱 맞는 음악을 추천받아보세요⋆⁺₊⋆     
+    지금 내 분위기에 딱 맞는 음악을 추천받아보세요 ⋆⁺₊⋆     
 </div>
 """,
     unsafe_allow_html=True
@@ -152,7 +152,7 @@ if st.button("추천 받기"):
 # 추천 결과 출력 + 로그 저장
 # ──────────────────────────────
 if "recs" in st.session_state:
-    st.subheader("🎶 추천 결과")
+    st.subheader("✧🎶˚₊· 추천 결과")
 
     for r in st.session_state.recs:
         st.write(f"- **{r['title']}** — *{r['artist']}* ")
