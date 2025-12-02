@@ -4,20 +4,19 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import uuid
-
-# ──────────────────────────────
-# 사용자 ID 생성
-# ──────────────────────────────
 import random
 import string
 
+# ──────────────────────────────
+# 사용자 ID 생성 (짧은 6자리)
+# ──────────────────────────────
 if "user_id" not in st.session_state:
     st.session_state.user_id = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+
 
 # ──────────────────────────────
 # Google Sheets 저장 함수
 # ──────────────────────────────
-
 def connect_to_gsheet():
     scope = ["https://spreadsheets.google.com/feeds",
              "https://www.googleapis.com/auth/drive"]
@@ -30,7 +29,7 @@ def connect_to_gsheet():
     return sheet
 
 
-def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None):
+def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None, comment=""):
     sheet = connect_to_gsheet()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     user_id = st.session_state.user_id
@@ -46,11 +45,13 @@ def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None):
             r["artist"],
             r["similarity"],
             rating if rating else "",
-            mood_after if mood_after else ""
+            mood_after if mood_after else "",
+            comment
         ])
 
+
 # ──────────────────────────────
-# Streamlit UI (타이틀만 크게 수정됨)
+# Streamlit UI
 # ──────────────────────────────
 
 st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
@@ -73,12 +74,7 @@ st.markdown("""
         .title-main {
             font-size: 35px;
             font-weight: 700;
-            #background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4); 
-            #background: linear-gradient(90deg, #AFAFAF, #D5D5D5, #F2F2F2);
-            #background: linear-gradient(90deg, #7ED957, #A3E77C, #C9F4A1);
             background: linear-gradient(90deg, #6EE888, #9EFFA4, #C9FFC8);
-
-
             -webkit-background-clip: text;
             color: transparent;
             text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
@@ -87,7 +83,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 소개 박스 — 메인 타이틀만 title-main 적용됨
+
+# 소개 박스
 st.markdown(
     """
 <div class="cute-box">
@@ -101,7 +98,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 감정 안내 박스 — 기존 크기 유지(title-text)
+# 감정 안내 박스
 st.markdown(
     """
 <div class="cute-box colored-box">
@@ -133,10 +130,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 선택 입력
+# 입력 UI
 emo1 = st.selectbox("첫 번째 감정 선택", [""] + emotions)
 emo2 = st.selectbox("두 번째 감정 선택(없어도 됨)", [""] + emotions)
 pop_level = st.selectbox("인기도 레벨(pop_level)", [0, 1, 2])
+
 
 # ──────────────────────────────
 # 추천 버튼 클릭
@@ -149,7 +147,6 @@ if st.button("추천 받기"):
         if emo2 != "":
             user_emotions.append(emo2)
 
-        # 추천 저장 (세션 유지)
         st.session_state.recs = recommend_knn(user_emotions, pop_level)
         st.session_state.emo1 = emo1
         st.session_state.emo2 = emo2
@@ -157,33 +154,34 @@ if st.button("추천 받기"):
 
         st.success("추천이 생성되었어요!")
 
+
 # ──────────────────────────────
-# 추천 결과 출력 + 로그 저장
+# 추천 결과 출력 + 피드백
 # ──────────────────────────────
 if "recs" in st.session_state:
     st.subheader("✧♬˚₊· 추천 결과")
 
     for r in st.session_state.recs:
         st.write(f"- **{r['title']}** — *{r['artist']}* ")
-        
-    st.markdown(
-    """
-    <div style="
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin: 20px 0;
-    ">
-        <div style="flex-grow: 1; height: 1px; background: #ccc;"></div>
-        <div style="padding: 0 10px; font-size: 14px; color: #777;">
-            ✦⋆˙✧₊˚༉‧₊˚⋆⁺₊⋆✧˙⋆✦
-        </div>
-        <div style="flex-grow: 1; height: 1px; background: #ccc;"></div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
 
+    # 구분선 (박스 크기 자동 맞춤)
+    st.markdown(
+        """
+        <div style="
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        ">
+            <div style="flex-grow: 1; height: 1px; background: #ccc;"></div>
+            <div style="padding: 0 10px; font-size: 14px; color: #777;">
+                ✦⋆˙✧₊˚༉‧₊˚⋆⁺₊⋆✧˙⋆✦
+            </div>
+            <div style="flex-grow: 1; height: 1px; background: #ccc;"></div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     # 자동 추천 로그 저장
     save_to_sheet(
@@ -193,25 +191,32 @@ if "recs" in st.session_state:
         st.session_state.pop_level
     )
 
-    # 피드백 입력
+    # 피드백 타이틀
     st.markdown(
-    """
-    <p style="font-size:28px; font-weight:600; ">
-        <span style="color:#FF4B4B;">✎</span>
-        <span style="color:#000000;">추천 피드백을 남겨주세요!</span>
-    </p>
-    """,
-    unsafe_allow_html=True
-)
+        """
+        <p style="font-size:24px; font-weight:600;">
+            <span style="color:#FF4B4B;">✎</span>
+            <span style="color:#000000;">추천 피드백을 남겨주세요!</span>
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
-    #st.subheader("📝 추천 피드백을 남겨주세요!")
-
+    # ⭐ 피드백 입력
     rating = st.slider("추천 만족도 (1~5)", 1, 5, 3)
+
     mood_after = st.radio(
         "추천 후 기분 변화는?",
         ["더 좋아졌어요 🙂", "그대로예요 😐", "별로였어요 🙁"]
     )
 
+    # 💬 한 줄 코멘트 추가 (선택)
+    comment = st.text_area(
+        "한 줄 의견을 남겨주세요 (선택사항)",
+        placeholder="ex. 오늘 감정이랑 너무 잘 맞았어요!"
+    )
+
+    # 제출 버튼
     if st.button("피드백 제출"):
         save_to_sheet(
             st.session_state.recs,
@@ -219,6 +224,7 @@ if "recs" in st.session_state:
             st.session_state.emo2,
             st.session_state.pop_level,
             rating,
-            mood_after
+            mood_after,
+            comment
         )
         st.success("⋆₊˚ෆ 피드백이 반영되었어요. 더 나은 음악을 추천할게요 ෆ˚₊⋆")
