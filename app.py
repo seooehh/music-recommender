@@ -48,18 +48,83 @@ def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None):
 
 
 # ──────────────────────────────
-# UI 시작
+# Streamlit UI (예진 디자인 유지)
 # ──────────────────────────────
 
 st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
 
-st.title("🎵 감정 기반 음악 추천 시스템")
+st.markdown("""
+    <style>
+        .cute-box {
+            padding: 15px 18px;
+            border-radius: 15px;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+        .colored-box {
+            background-color: #D9F1FF;
+        }
+        .title-text {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
+# 소개 박스
+st.markdown(
+    """
+<div class="cute-box">
+    <div class="title-text">🎵 감정 기반 음악 추천 시스템</div>
+    지금 감정에 따라 지금 딱 맞는 음악을 추천받아보세요! 💜<br>
+    선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 🎧  
+</div>
+
+<br>
+""",
+    unsafe_allow_html=True
+)
+
+# 감정 안내 박스
+st.markdown(
+    """
+<div class="cute-box colored-box">
+    <div class="title-text">✅ 선택 가능한 감정</div>
+    happy · sad · relaxed · angry · focus · confident
+</div>
+
+<br>
+
+<div class="cute-box colored-box">
+    <div class="title-text">🔥 인기도 (pop_level)</div>
+    0 : 60–70<br>
+    1 : 71–80<br>
+    2 : 81–99
+</div>
+
+<br>
+""",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+<div class="cute-box">
+    지금 내 분위기에 딱 맞는 음악을 찾아보자! 🌈    
+</div>
+""",
+    unsafe_allow_html=True
+)
+
+
+# 선택 입력
 emo1 = st.selectbox("첫 번째 감정 선택", [""] + emotions)
 emo2 = st.selectbox("두 번째 감정 선택(없어도 됨)", [""] + emotions)
 pop_level = st.selectbox("인기도 레벨(pop_level)", [0, 1, 2])
 
-# 추천 결과를 session_state에 저장
+# ──────────────────────────────
+# 추천 버튼 클릭
+# ──────────────────────────────
 if st.button("추천 받기"):
     if emo1 == "":
         st.warning("⚠ 첫 번째 감정을 반드시 선택해주세요.")
@@ -68,6 +133,7 @@ if st.button("추천 받기"):
         if emo2 != "":
             user_emotions.append(emo2)
 
+        # 추천 저장 (세션 유지)
         st.session_state.recs = recommend_knn(user_emotions, pop_level)
         st.session_state.emo1 = emo1
         st.session_state.emo2 = emo2
@@ -75,17 +141,33 @@ if st.button("추천 받기"):
 
         st.success("추천이 생성되었어요!")
 
-# 추천 결과 출력
+
+# ──────────────────────────────
+# 추천 결과 출력 (추천 후 자동 표시)
+# ──────────────────────────────
 if "recs" in st.session_state:
     st.subheader("🎶 추천 결과")
     for r in st.session_state.recs:
-        st.write(f"- **{r['title']}** — *{r['artist']}*  (유사도 {r['similarity']})")
+        st.write(f"- **{r['title']}** — *{r['artist']}*  (❗유사도 {r['similarity']})")
 
-    # ⭐ 피드백 UI
-    st.subheader("📝 추천 피드백")
+    # 추천 로그 저장 (피드백 없이도 기록)
+    save_to_sheet(
+        st.session_state.recs,
+        st.session_state.emo1,
+        st.session_state.emo2,
+        st.session_state.pop_level
+    )
+
+    # ──────────────────────────────
+    # ⭐ + 🙂 피드백 입력 폼
+    # ──────────────────────────────
+    st.subheader("📝 추천 피드백을 남겨주세요!")
 
     rating = st.slider("추천 만족도 (1~5)", 1, 5, 3)
-    mood_after = st.radio("추천 후 기분 변화는?", ["더 좋아졌어요 🙂", "그대로예요 😐", "별로였어요 🙁"])
+    mood_after = st.radio(
+        "추천 후 기분 변화는?",
+        ["더 좋아졌어요 🙂", "그대로예요 😐", "별로였어요 🙁"]
+    )
 
     if st.button("피드백 제출"):
         save_to_sheet(
@@ -96,6 +178,4 @@ if "recs" in st.session_state:
             rating,
             mood_after
         )
-        st.success("💜 피드백이 저장되었어요!")
-
-
+        st.success("💜 피드백이 저장되었어요! 고마워요!")
