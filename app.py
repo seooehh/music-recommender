@@ -70,9 +70,10 @@ st.markdown("""
         .title-main {
             font-size: 36px;
             font-weight: 700;
-            background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4);
+            #background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4);
+            background: linear-gradient(90deg, #CFCFCF, #E6E6E6, #F5F5F5);
             -webkit-background-clip: text;
-            #color: transparent;
+            color: transparent;
             text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
             text-align: center;
         }
