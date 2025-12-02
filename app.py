@@ -162,8 +162,9 @@ if "recs" in st.session_state:
 
     for r in st.session_state.recs:
         st.write(f"- **{r['title']}** — *{r['artist']}* ")
-        st.markdown(
-        "<p style='font-size:14px; text-align:center; color:#777;'>✦⋆˙✧₊˚༉‧₊˚⋆⁺₊⁺⋆˚₊‧༉˚₊✧˙⋆✦</p>",
+        
+    st.markdown(
+        "<p style='font-size:15px; text-align:center;'>✦⋆˙✧₊˚༉‧₊˚⋆⁺₊⁺⋆˚₊‧༉˚₊✧˙⋆✦</p>",
         unsafe_allow_html=True
     )
 
