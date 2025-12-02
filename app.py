@@ -193,8 +193,8 @@ if "recs" in st.session_state:
     # 피드백 입력
     st.markdown(
     """
-    <p style="font-size:24px; font-weight:600; ">
-        <span style="color:#FF4B4B;">📝</span>
+    <p style="font-size:26px; font-weight:600; ">
+        <span style="color:#FF4B4B;">✎</span>
         <span style="color:#000000;">추천 피드백을 남겨주세요!</span>
     </p>
     """,
