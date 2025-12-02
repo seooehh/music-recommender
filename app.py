@@ -46,9 +46,8 @@ def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None):
             mood_after if mood_after else ""
         ])
 
-
 # ──────────────────────────────
-# Streamlit UI (예진 디자인 유지)
+# Streamlit UI (타이틀만 크게 수정됨)
 # ──────────────────────────────
 
 st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
@@ -68,14 +67,22 @@ st.markdown("""
             font-size: 20px;
             font-weight: 600;
         }
+        .title-main {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #7F7FD5, #86A8E7, #91EAE4);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0px 2px 12px rgba(0,0,0,0.15);
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# 소개 박스
+# 소개 박스 — 메인 타이틀만 title-main 적용됨
 st.markdown(
     """
 <div class="cute-box">
-    <div class="title-text">𖤐 감정 기반 음악 추천 시스템</div>
+    <div class="title-main">𖤐 감정 기반 음악 추천 시스템</div>
     지금 감정에 따라 지금 딱 맞는 음악을 추천받아보세요! <br>
     선택한 감정과 인기도(pop_level)를 기반으로 영어 음악을 추천해주는 시스템입니다. 🎧  
 </div>
@@ -85,7 +92,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 감정 안내 박스
+# 감정 안내 박스 — 기존 크기 유지(title-text)
 st.markdown(
     """
 <div class="cute-box colored-box">
@@ -107,6 +114,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# 안내 박스
 st.markdown(
     """
 <div class="cute-box">
@@ -115,7 +123,6 @@ st.markdown(
 """,
     unsafe_allow_html=True
 )
-
 
 # 선택 입력
 emo1 = st.selectbox("첫 번째 감정 선택", [""] + emotions)
@@ -141,16 +148,16 @@ if st.button("추천 받기"):
 
         st.success("추천이 생성되었어요!")
 
-
 # ──────────────────────────────
-# 추천 결과 출력 (추천 후 자동 표시)
+# 추천 결과 출력 + 로그 저장
 # ──────────────────────────────
 if "recs" in st.session_state:
     st.subheader("🎶 추천 결과")
+
     for r in st.session_state.recs:
         st.write(f"- **{r['title']}** — *{r['artist']}*  (❗유사도 {r['similarity']})")
 
-    # 추천 로그 저장 (피드백 없이도 기록)
+    # 자동 추천 로그 저장
     save_to_sheet(
         st.session_state.recs,
         st.session_state.emo1,
@@ -158,9 +165,7 @@ if "recs" in st.session_state:
         st.session_state.pop_level
     )
 
-    # ──────────────────────────────
-    # ⭐ + 🙂 피드백 입력 폼
-    # ──────────────────────────────
+    # 피드백 입력
     st.subheader("📝 추천 피드백을 남겨주세요!")
 
     rating = st.slider("추천 만족도 (1~5)", 1, 5, 3)
@@ -178,4 +183,4 @@ if "recs" in st.session_state:
             rating,
             mood_after
         )
-        st.success("피드백이 저장되었습니다! 감사합니다!")
+        st.success("피드백이 저장되었습니다! 감사합니다! 💜")
