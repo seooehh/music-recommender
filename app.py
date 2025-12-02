@@ -96,14 +96,14 @@ st.markdown(
 st.markdown(
     """
 <div class="cute-box colored-box">
-    <div class="title-text">✅ 선택 가능한 감정</div>
+    <div class="title-text">✔ 선택 가능한 감정</div>
     happy · sad · relaxed · angry · focus · confident
 </div>
 
 <br>
 
 <div class="cute-box colored-box">
-    <div class="title-text">🔥 인기도 (pop_level)</div>
+    <div class="title-text">✷ 인기도 (pop_level)</div>
     0 : <br>
     1 : 71–80<br>
     2 : 81–99
