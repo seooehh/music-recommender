@@ -86,7 +86,7 @@ st.markdown("""
             border-radius: 15px;
             font-size: 17px;
             line-height: 1.5;
-            color: #000000 !important;
+            
         }
 
         .colored-box {
