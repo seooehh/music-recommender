@@ -139,25 +139,10 @@ st.markdown("""
 
 st.markdown("""
 <style>
-
-    /* ===== Streamlit 상단 헤더 영역 완전 제거 ===== */
-    header[data-testid="stHeader"] {
-        height: 0px !important;
-        min-height: 0px !important;
-        padding: 0px !important;
-        margin: 0px !important;
-        visibility: hidden;
-    }
-
-    /* ===== 메인 block padding 강제 축소 ===== */
-    .block-container {
-        padding-top: 0.2rem !important;
-    }
-
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
-
-
 
 # 소개 박스
 st.markdown(
