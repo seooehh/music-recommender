@@ -198,7 +198,6 @@ emo1 = st.selectbox("첫 번째 감정 선택", [""] + emotions)
 emo2 = st.selectbox("두 번째 감정 선택(없어도 됨)", [""] + emotions)
 pop_level = st.selectbox("인기도 레벨(pop_level)", [0, 1, 2])
 
-# 추천 버튼
 if st.button("추천 받기"):
     if emo1 == "":
         st.warning("⚠ 첫 번째 감정을 반드시 선택해주세요.")
@@ -210,12 +209,13 @@ if st.button("추천 받기"):
         st.session_state.pop_level = pop_level
 
         st.success("추천이 생성되었어요!")
-         
-        # 🔹 여기서 자동 스크롤 추가
+
+        # 자동 스크롤
         st.markdown(
-            "<script>window.scrollTo(0,document.body.scrollHeight);</script>",
+            "<script>window.scrollTo(0, document.body.scrollHeight);</script>",
             unsafe_allow_html=True
         )
+
 
 # 추천 결과 + 피드백
 if "recs" in st.session_state:
