@@ -62,15 +62,9 @@ st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
 st.markdown("""
     <style>
 
-        /* --- Streamlit 기본 UI 숨기기 --- */
-        footer {visibility: hidden;}
-        footer {display: none;}
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-
         /* --- 상단 패딩 제거 (가장 중요) --- */
         .block-container {
-            padding-top: 10rem !important;
+            padding-top: 5rem !important;
             padding-bottom: 1rem !important;
         }
 
