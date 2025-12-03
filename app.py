@@ -56,8 +56,24 @@ def save_to_sheet(recs, emo1, emo2, pop_level, rating=None, mood_after=None, com
 st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
 
 # 모바일 반응형 CSS 포함
+st.set_page_config(page_title="감정 기반 음악 추천", page_icon="🎵")
+
+# ★ Streamlit 로고/메뉴 제거 + 모바일 반응형 + 상단 패딩 제거
 st.markdown("""
     <style>
+
+        /* --- Streamlit 기본 UI 숨기기 --- */
+        footer {visibility: hidden;}
+        footer {display: none;}
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+
+        /* --- 상단 패딩 제거 (가장 중요) --- */
+        .block-container {
+            padding-top: 0rem !important;
+            padding-bottom: 1rem !important;
+        }
+
         /* 전체 레이아웃 여백 조정 */
         .main, .block-container {
             padding-left: 1rem !important;
@@ -87,6 +103,7 @@ st.markdown("""
             font-weight: 600;
         }
 
+        /* 메인 타이틀 */
         .title-main {
             font-size: 35px;
             font-weight: 700;
