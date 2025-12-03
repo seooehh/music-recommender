@@ -82,11 +82,14 @@ st.markdown("""
         }
 
         .cute-box {
-            padding: 15px 18px;
-            border-radius: 15px;
-            font-size: 17px;
-            line-height: 1.5;
-        }
+    padding: 15px 18px;
+    border-radius: 15px;
+    font-size: 17px;
+    line-height: 1.5;
+    background-color: #D9F1FF !important; /* 박스 배경색 고정 */
+    color: #000000 !important; /* 글자색 고정 */
+}
+
 
         .colored-box {
             background-color: #D9F1FF;
